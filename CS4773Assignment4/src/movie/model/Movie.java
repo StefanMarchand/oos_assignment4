@@ -1,5 +1,7 @@
 package movie.model;
 
+import movie.view.MovieController;
+
 public class Movie {
 	private String movieTitle;
 	private int releaseYear;
@@ -53,5 +55,11 @@ public class Movie {
 
 	public void setRating(int rating) {
 		this.rating = rating;
+	}
+
+
+	public void register(MovieController movieController, MovieObservableClass observer) {
+		observer.addObserver(movieController);
+		
 	}
 }

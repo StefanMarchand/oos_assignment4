@@ -1,7 +1,19 @@
 package movie.model;
 
-import javafx.beans.Observable;
+import java.util.Observable;
 
-public interface MovieObservableClass extends Observable{
+public class MovieObservableClass extends Observable{
+
+	private Movie movie;
+	public MovieObservableClass() {
+		movie = MovieSingleton.getInstanceMultiThread();
+	}
 	
+	public void update(Observable o, Object arg) {
+		if(o instanceof MovieObservableClass) {
+			setChanged();
+			notifyObservers();
+		}
+	}
+
 }

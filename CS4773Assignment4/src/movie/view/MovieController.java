@@ -1,16 +1,23 @@
 package movie.view;
 
 import java.net.URL;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
+import movie.model.Movie;
+import movie.model.MovieObservableClass;
+import movie.model.MovieSingleton;
 import javafx.fxml.Initializable;
 
-public class MovieController implements Initializable {
+public class MovieController implements Initializable, Observer {
+	
+	private Movie movie;
+	private MovieObservableClass movieObserverDelegate; 
 
     @FXML
     private TextField movieTitle;
@@ -36,7 +43,9 @@ public class MovieController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		movie = MovieSingleton.getInstanceMultiThread();
+		movieObserverDelegate = new MovieObservableClass();
 	}
+
 
 }
