@@ -46,6 +46,9 @@ public class MovieController implements Initializable, Observer {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		movieTitle.textProperty().addListener(new movieTitleListener());
+		director.textProperty().addListener(new directorListener());
+		writer.textProperty().addListener(new writerListener());
+		releaseYear.textProperty().addListener(new releaseYearListener());
 	}
 
 	@Override
@@ -54,7 +57,11 @@ public class MovieController implements Initializable, Observer {
 			Movie movie = MovieSingleton.getInstanceMultiThread();
 			movieTitle.setText(movie.getMovieTitle());
 			director.setText(movie.getDirector());
-		}
+			writer.setText(movie.getWriter());
+			String str = Integer.toString(movie.getReleaseYear());
+			//releaseYear.setText(str);
+			
+		};
 	}
 
 	private class movieTitleListener implements ChangeListener<String>{
@@ -67,4 +74,40 @@ public class MovieController implements Initializable, Observer {
 
 
 	}
+	
+	private class directorListener implements ChangeListener<String>{
+		@Override
+		public void changed (ObservableValue<? extends String> observable, String oldValue, String newValue) {
+			Movie movie = MovieSingleton.getInstanceMultiThread();
+			movie.setDirector(newValue);
+			director.setText(movie.getDirector());
+		}
+
+
+	}
+	
+	private class writerListener implements ChangeListener<String>{
+		@Override
+		public void changed (ObservableValue<? extends String> observable, String oldValue, String newValue) {
+			Movie movie = MovieSingleton.getInstanceMultiThread();
+			movie.setWriter(newValue);
+			writer.setText(movie.getWriter());
+		}
+
+
+	}
+	
+	private class releaseYearListener implements ChangeListener<String>{
+		@Override
+		public void changed (ObservableValue<? extends String> observable, String oldValue, String newValue) {
+			Movie movie = MovieSingleton.getInstanceMultiThread();
+			int newInt = Integer.parseInt(newValue);
+			movie.setReleaseYear(newInt);
+			String str = Integer.toString(movie.getReleaseYear());
+			releaseYear.setText(str);
+		}
+
+
+	}
+	
 }
