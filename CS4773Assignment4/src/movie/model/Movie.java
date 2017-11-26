@@ -8,13 +8,14 @@ public class Movie {
 	private String director;
 	private String writer;
 	private int rating;
-	
+	private MovieObservableClass movieDelegateObserver;
 	public Movie(String title, int releaseYear, String director, String writer, int rating) {
 		this.movieTitle = title;
 		this.releaseYear = releaseYear;
 		this.director = director;
 		this.writer = writer;
 		this.rating = rating;
+		movieDelegateObserver = new MovieObservableClass();
 	}
 
 	public String getMovieTitle() {
@@ -23,6 +24,7 @@ public class Movie {
 
 	public void setMovieTitle(String movieTitle) {
 		this.movieTitle = movieTitle;
+		update();
 	}
 
 	public int getReleaseYear() {
@@ -31,6 +33,7 @@ public class Movie {
 
 	public void setReleaseYear(int releaseYear) {
 		this.releaseYear = releaseYear;
+		update();
 	}
 
 	public String getDirector() {
@@ -39,6 +42,7 @@ public class Movie {
 
 	public void setDirector(String director) {
 		this.director = director;
+		update();
 	}
 
 	public String getWriter() {
@@ -47,6 +51,7 @@ public class Movie {
 
 	public void setWriter(String writer) {
 		this.writer = writer;
+		update();
 	}
 
 	public int getRating() {
@@ -55,11 +60,13 @@ public class Movie {
 
 	public void setRating(int rating) {
 		this.rating = rating;
+		update();
 	}
 
-
-	public void register(MovieController movieController, MovieObservableClass observer) {
-		observer.addObserver(movieController);
+	public void addObserver(MovieController movieController) {
+		movieDelegateObserver.addObserver(movieController);
 		
 	}
+	public void update() {
+		movieDelegateObserver.go();}
 }

@@ -14,7 +14,7 @@ public abstract class MovieSingleton{
 		if(movie == null) {
 			synchronized(Lock) {
 				if(movie == null) {
-					movie = new Movie(null, 0, null, null, 0);
+					movie = new Movie("", 0, "", "", 0);
 				}
 			}
 		}
