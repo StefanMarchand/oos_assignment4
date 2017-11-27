@@ -67,6 +67,6 @@ public class Movie {
 		movieDelegateObserver.addObserver(movieController);
 		
 	}
-	public void update() {
+	private void update() {
 		movieDelegateObserver.go();}
 }

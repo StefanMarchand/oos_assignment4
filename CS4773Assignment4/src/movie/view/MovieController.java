@@ -70,7 +70,6 @@ public class MovieController implements Initializable, Observer {
 			Movie movie = MovieSingleton.getInstanceMultiThread();
 			int updatedValue = (int) ((double) newValue * 1);
 			movie.setRating(updatedValue);
-
 		}
 	}
 
@@ -80,8 +79,6 @@ public class MovieController implements Initializable, Observer {
 			Movie movie = MovieSingleton.getInstanceMultiThread();
 			movie.setMovieTitle(newValue);
 		}
-
-
 	}
 
 	private class directorListener implements ChangeListener<String>{
@@ -90,8 +87,6 @@ public class MovieController implements Initializable, Observer {
 			Movie movie = MovieSingleton.getInstanceMultiThread();
 			movie.setDirector(newValue);
 		}
-
-
 	}
 
 	private class writerListener implements ChangeListener<String>{
@@ -100,8 +95,6 @@ public class MovieController implements Initializable, Observer {
 			Movie movie = MovieSingleton.getInstanceMultiThread();
 			movie.setWriter(newValue);
 		}
-
-
 	}
 
 	private class releaseYearListener implements ChangeListener<String>{
@@ -118,12 +111,8 @@ public class MovieController implements Initializable, Observer {
 				releaseYear.setText(newValue);
 				return;
 			}
-
-
 		}
 	}
-
-
 }
 
 
