@@ -59,7 +59,7 @@ public class MovieController implements Initializable, Observer {
 			director.setText(movie.getDirector());
 			writer.setText(movie.getWriter());
 			String str = Integer.toString(movie.getReleaseYear());
-			//releaseYear.setText(str);
+			releaseYear.setText(str);
 			
 		};
 	}
@@ -101,10 +101,14 @@ public class MovieController implements Initializable, Observer {
 		@Override
 		public void changed (ObservableValue<? extends String> observable, String oldValue, String newValue) {
 			Movie movie = MovieSingleton.getInstanceMultiThread();
-			int newInt = Integer.parseInt(newValue);
-			movie.setReleaseYear(newInt);
-			String str = Integer.toString(movie.getReleaseYear());
-			releaseYear.setText(str);
+			if(newValue == ""){
+				releaseYear.setText("");
+			}else{
+				int newInt = Integer.parseInt(newValue);
+				movie.setReleaseYear(newInt);
+				String str = Integer.toString(movie.getReleaseYear());
+				releaseYear.setText(str);
+			}
 		}
 
 
