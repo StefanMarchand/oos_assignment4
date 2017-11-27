@@ -5,8 +5,6 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.InvalidationListener;
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -18,8 +16,6 @@ import movie.model.MovieSingleton;
 import javafx.fxml.Initializable;
 
 public class MovieController implements Initializable, Observer {
-
-	private MovieObservableClass movieObserverDelegate; 
 
 	@FXML
 	private TextField movieTitle;
@@ -44,7 +40,6 @@ public class MovieController implements Initializable, Observer {
 		movie.addObserver(this);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		movieTitle.textProperty().addListener(new movieTitleListener());
@@ -67,15 +62,15 @@ public class MovieController implements Initializable, Observer {
 			ratingSlider.setValue((double)movie.getRating()); 
 		};
 	}
-	
+
 	private class sliderListener implements ChangeListener<Number>{
-	
+
 		@Override
 		public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 			Movie movie = MovieSingleton.getInstanceMultiThread();
 			int updatedValue = (int) ((double) newValue * 1);
 			movie.setRating(updatedValue);
-			
+
 		}
 	}
 
@@ -88,7 +83,7 @@ public class MovieController implements Initializable, Observer {
 
 
 	}
-	
+
 	private class directorListener implements ChangeListener<String>{
 		@Override
 		public void changed (ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -98,7 +93,7 @@ public class MovieController implements Initializable, Observer {
 
 
 	}
-	
+
 	private class writerListener implements ChangeListener<String>{
 		@Override
 		public void changed (ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -108,12 +103,12 @@ public class MovieController implements Initializable, Observer {
 
 
 	}
-	
+
 	private class releaseYearListener implements ChangeListener<String>{
 		@Override
 		public void changed (ObservableValue<? extends String> observable, String oldValue, String newValue) {
 			Movie movie = MovieSingleton.getInstanceMultiThread();
-				int newInt = 0;
+			int newInt = 0;
 			try{
 				newInt = Integer.parseInt(newValue);
 				movie.setReleaseYear(newInt);
@@ -123,12 +118,12 @@ public class MovieController implements Initializable, Observer {
 				releaseYear.setText(newValue);
 				return;
 			}
-		
-		
-			}
+
+
 		}
-
-
 	}
-	
+
+
+}
+
 
