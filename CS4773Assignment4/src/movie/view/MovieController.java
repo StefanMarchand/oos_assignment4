@@ -64,7 +64,7 @@ public class MovieController implements Initializable, Observer {
 			String str = Integer.toString(movie.getReleaseYear());
 			releaseYear.setText(str);
 			ratingText.setText(Integer.toString(movie.getRating()));
-			
+			ratingSlider.setValue((double)movie.getRating()); 
 		};
 	}
 	
@@ -84,7 +84,6 @@ public class MovieController implements Initializable, Observer {
 		public void changed (ObservableValue<? extends String> observable, String oldValue, String newValue) {
 			Movie movie = MovieSingleton.getInstanceMultiThread();
 			movie.setMovieTitle(newValue);
-			movieTitle.setText(movie.getMovieTitle());
 		}
 
 
@@ -95,7 +94,6 @@ public class MovieController implements Initializable, Observer {
 		public void changed (ObservableValue<? extends String> observable, String oldValue, String newValue) {
 			Movie movie = MovieSingleton.getInstanceMultiThread();
 			movie.setDirector(newValue);
-			director.setText(movie.getDirector());
 		}
 
 
@@ -106,7 +104,6 @@ public class MovieController implements Initializable, Observer {
 		public void changed (ObservableValue<? extends String> observable, String oldValue, String newValue) {
 			Movie movie = MovieSingleton.getInstanceMultiThread();
 			movie.setWriter(newValue);
-			writer.setText(movie.getWriter());
 		}
 
 
