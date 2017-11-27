@@ -4,8 +4,9 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
-
 import javafx.beans.value.ChangeListener;
+import javafx.beans.InvalidationListener;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -43,12 +44,14 @@ public class MovieController implements Initializable, Observer {
 		movie.addObserver(this);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		movieTitle.textProperty().addListener(new movieTitleListener());
 		director.textProperty().addListener(new directorListener());
 		writer.textProperty().addListener(new writerListener());
 		releaseYear.textProperty().addListener(new releaseYearListener());
+		ratingSlider.valueProperty().addListener(new sliderListener());;
 	}
 
 	@Override
@@ -60,8 +63,20 @@ public class MovieController implements Initializable, Observer {
 			writer.setText(movie.getWriter());
 			String str = Integer.toString(movie.getReleaseYear());
 			releaseYear.setText(str);
+			ratingText.setText(Integer.toString(movie.getRating()));
 			
 		};
+	}
+	
+	private class sliderListener implements ChangeListener<Number>{
+	
+		@Override
+		public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+			Movie movie = MovieSingleton.getInstanceMultiThread();
+			int updatedValue = (int) ((double) newValue * 1);
+			movie.setRating(updatedValue);
+			
+		}
 	}
 
 	private class movieTitleListener implements ChangeListener<String>{
@@ -101,17 +116,22 @@ public class MovieController implements Initializable, Observer {
 		@Override
 		public void changed (ObservableValue<? extends String> observable, String oldValue, String newValue) {
 			Movie movie = MovieSingleton.getInstanceMultiThread();
-			if(newValue == ""){
-				releaseYear.setText("");
-			}else{
-				int newInt = Integer.parseInt(newValue);
+				int newInt = 0;
+			try{
+				newInt = Integer.parseInt(newValue);
 				movie.setReleaseYear(newInt);
 				String str = Integer.toString(movie.getReleaseYear());
 				releaseYear.setText(str);
+			} catch (NumberFormatException e){
+				releaseYear.setText(newValue);
+				return;
+			}
+		
+		
 			}
 		}
 
 
 	}
 	
-}
+
