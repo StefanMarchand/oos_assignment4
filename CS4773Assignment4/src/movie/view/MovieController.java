@@ -46,7 +46,7 @@ public class MovieController implements Initializable, Observer {
 	private TextFormatter<Integer> textFormatter = new TextFormatter<Integer>(new IntegerStringConverter(), 0, 
             change -> {
                 String newText = change.getControlNewText() ;
-                if (validDoubleText.matcher(newText).matches()) {
+                if (validDoubleText.matcher(newText).matches() && newText.length() <= 5) {
                     return change ;
                 } else return null ;
             });
@@ -124,11 +124,17 @@ public class MovieController implements Initializable, Observer {
 		@Override
 		public void changed (ObservableValue<? extends String> observable, String oldValue, String newValue) {
 			Movie movie = MovieSingleton.getInstanceMultiThread();
+			if(newValue == null){
+				movie.setReleaseYear(0);
+			}else{
 			
 			try{
 				movie.setReleaseYear(Integer.parseInt(newValue));
 			}catch(NumberFormatException e){
+				movie.setReleaseYear(0);
 				return;
+			}
+			
 			}
 		}
 	}
