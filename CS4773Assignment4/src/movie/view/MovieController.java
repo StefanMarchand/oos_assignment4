@@ -4,12 +4,18 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
+
+import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.IntegerStringConverter;
 import movie.model.Movie;
 import movie.model.MovieObservableClass;
 import movie.model.MovieSingleton;
@@ -34,6 +40,18 @@ public class MovieController implements Initializable, Observer {
 
 	@FXML
 	private Slider ratingSlider;
+	
+	private Pattern validDoubleText = Pattern.compile("-?((\\d*)|(\\d+\\.\\d*))");
+	
+	private TextFormatter<Integer> textFormatter = new TextFormatter<Integer>(new IntegerStringConverter(), 0, 
+            change -> {
+                String newText = change.getControlNewText() ;
+                if (validDoubleText.matcher(newText).matches()) {
+                    return change ;
+                } else return null ;
+            });
+	
+	
 
 	public MovieController() {
 		Movie movie = MovieSingleton.getInstanceMultiThread();
@@ -46,7 +64,8 @@ public class MovieController implements Initializable, Observer {
 		director.textProperty().addListener(new directorListener());
 		writer.textProperty().addListener(new writerListener());
 		releaseYear.textProperty().addListener(new releaseYearListener());
-		ratingSlider.valueProperty().addListener(new sliderListener());;
+		ratingSlider.valueProperty().addListener(new sliderListener());
+		releaseYear.setTextFormatter(textFormatter);
 	}
 
 	@Override
@@ -57,7 +76,11 @@ public class MovieController implements Initializable, Observer {
 			director.setText(movie.getDirector());
 			writer.setText(movie.getWriter());
 			String str = Integer.toString(movie.getReleaseYear());
-			releaseYear.setText(str);
+			if(str == "" || str == "0"){
+				releaseYear.setText("");
+			}else{
+				releaseYear.setText(str);
+			}
 			ratingText.setText(Integer.toString(movie.getRating()));
 			ratingSlider.setValue((double)movie.getRating()); 
 		};
@@ -101,18 +124,24 @@ public class MovieController implements Initializable, Observer {
 		@Override
 		public void changed (ObservableValue<? extends String> observable, String oldValue, String newValue) {
 			Movie movie = MovieSingleton.getInstanceMultiThread();
-			int newInt = 0;
-			try{
-				newInt = Integer.parseInt(newValue);
-				movie.setReleaseYear(newInt);
-				String str = Integer.toString(movie.getReleaseYear());
-				releaseYear.setText(str);
-			} catch (NumberFormatException e){
-				releaseYear.setText(newValue);
-				return;
+			//int newInt = 0;
+			
+			Pattern validDoubleText = Pattern.compile("-?((\\d*)|(\\d+\\.\\d*))");
+			
+			if (validDoubleText.matcher(newValue).matches()){
+				//int str = Integer.parseInt(newValue);
+				try{
+					movie.setReleaseYear(Integer.parseInt(newValue));
+				}catch(NumberFormatException e){
+					return;
+				}
+			}else{
+				movie.setReleaseYear(0);
 			}
 		}
 	}
+	
+	
 }
 
 
