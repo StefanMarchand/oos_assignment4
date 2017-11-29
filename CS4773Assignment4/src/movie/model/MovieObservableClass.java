@@ -4,12 +4,8 @@ import java.util.Observable;
 
 public class MovieObservableClass extends Observable{
 
-	public void go() {
+	public void delegateNotifyObservers() {
 		this.setChanged();
 		this.notifyObservers();
 	}
-
-	
-
-
 }

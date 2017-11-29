@@ -68,5 +68,5 @@ public class Movie {
 		
 	}
 	private void update() {
-		movieDelegateObserver.go();}
+		movieDelegateObserver.delegateNotifyObservers();}
 }

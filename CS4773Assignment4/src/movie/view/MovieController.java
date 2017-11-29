@@ -40,18 +40,16 @@ public class MovieController implements Initializable, Observer {
 
 	@FXML
 	private Slider ratingSlider;
-	
+
 	private Pattern validDoubleText = Pattern.compile("-?((\\d*)|(\\d+\\.\\d*))");
-	
+
 	private TextFormatter<Integer> textFormatter = new TextFormatter<Integer>(new IntegerStringConverter(), 0, 
-            change -> {
-                String newText = change.getControlNewText() ;
-                if (validDoubleText.matcher(newText).matches() && newText.length() <= 5) {
-                    return change ;
-                } else return null ;
-            });
-	
-	
+			change -> {
+				String newText = change.getControlNewText() ;
+				if (validDoubleText.matcher(newText).matches() && newText.length() <= 5) {
+					return change ;
+				} else return null ;
+			});
 
 	public MovieController() {
 		Movie movie = MovieSingleton.getInstanceMultiThread();
@@ -127,19 +125,14 @@ public class MovieController implements Initializable, Observer {
 			if(newValue == null){
 				movie.setReleaseYear(0);
 			}else{
-			
-			try{
-				movie.setReleaseYear(Integer.parseInt(newValue));
-			}catch(NumberFormatException e){
-				movie.setReleaseYear(0);
-				return;
-			}
-			
+
+				try{
+					movie.setReleaseYear(Integer.parseInt(newValue));
+				}catch(NumberFormatException e){
+					movie.setReleaseYear(0);
+					return;
+				}
 			}
 		}
 	}
-	
-	
 }
-
-
